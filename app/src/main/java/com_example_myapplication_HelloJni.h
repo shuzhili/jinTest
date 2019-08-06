@@ -39,14 +39,6 @@ JNIEXPORT jstring JNICALL Java_com_example_myapplication_HelloJni_testBooleanInt
 JNIEXPORT jobjectArray JNICALL Java_com_example_myapplication_HelloJni_testArray
   (JNIEnv *, jobject, jintArray, jobjectArray, jbooleanArray);
 
-/*
- * Class:     com_example_myapplication_HelloJni
- * Method:    nativeGetStudentInfo
- * Signature: ()Lcom/example/myapplication/Student;
- */
-JNIEXPORT jobject JNICALL Java_com_example_myapplication_HelloJni_nativeGetStudentInfo
-  (JNIEnv *, jobject);
-
 #ifdef __cplusplus
 }
 #endif
