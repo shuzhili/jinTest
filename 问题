@@ -1,0 +1,4 @@
+1.javah  encoding的问题
+javah -jni -encoding UTF-8
+
+2.解决c++ - Android NDK: Missing LOCAL_MODULE before including BUILD_SHARED_LIBRARY

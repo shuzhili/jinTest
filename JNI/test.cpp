@@ -1,117 +1,139 @@
-#include <jni.h>
-#include <android/log.h>
-#include <string.h>
+#include "OBOJni.h"
 
-void hello_jni(void)
+void testJni_Hello()
 {
-    __android_log_print(ANDROID_LOG_ERROR,"jnitag","hello jni is called!!!!");
+    __android_log_print(ANDROID_LOG_ERROR,"testjni", "JNI: hello jni");
+    return;
 }
+
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+
 /*
- * Class:     com_example_myapplication_HelloJni
- * Method:    helloJniJava
+ * Class:     com_itcast_ace_obo_170325_OBOJNI
+ * Method:    hello_jni
  * Signature: ()V
  */
-JNIEXPORT void JNICALL Java_com_example_myapplication_HelloJni_helloJniJava
-        (JNIEnv *, jobject){
-    hello_jni();
+JNIEXPORT void JNICALL Java_com_itcast_ace_obo_1170325_OBOJNI_hello_1jni
+        (JNIEnv * env, jobject obj)
+{
+    testJni_Hello();
+}
+
+
+
+/*
+ * Class:     com_itcast_ace_obo_170325_OBOJNI
+ * Method:    hello_jni2
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_com_itcast_ace_obo_1170325_OBOJNI_hello_1jni2
+        (JNIEnv *env , jobject obj)
+{
+    __android_log_print(ANDROID_LOG_ERROR,"testjni", "JNI: hello jni2!!!!");
+
+}
+
+
+/*
+ * Class:     com_itcast_ace_obo_170325_OBOJNI
+ * Method:    test_jni_api
+ * Signature: (II)I
+ */
+JNIEXPORT jint JNICALL Java_com_itcast_ace_obo_1170325_OBOJNI_test_1jni_1api
+        (JNIEnv *env, jobject obj, jint j_a, jint j_b)
+{
+    int a = (int)j_a;
+    int b = (int)j_b;
+
+    __android_log_print(ANDROID_LOG_ERROR,"testjni", "JNI: a = %d, b = %d", a, b);
+
+
+    int c = 20;
+
+    return c;
+}
+
+
+/*
+ * Class:     com_itcast_ace_obo_170325_OBOJNI
+ * Method:    test_jni_api2
+ * Signature: (Z)Z
+ */
+JNIEXPORT jboolean JNICALL Java_com_itcast_ace_obo_1170325_OBOJNI_test_1jni_1api2
+        (JNIEnv *env, jobject obj, jboolean j_bool_a)
+{
+    bool arg_bool = (j_bool_a == JNI_TRUE)?true:false;
+
+    __android_log_print(ANDROID_LOG_ERROR,"testjni", "JNI: bool = %s",
+                        ((arg_bool==true)?"true":"false"));
+
+
+    return (arg_bool == true)?JNI_TRUE:JNI_FALSE;
+}
+
+
+/*
+ * Class:     com_itcast_ace_obo_170325_OBOJNI
+ * Method:    test_jni_api3
+ * Signature: (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_com_itcast_ace_obo_1170325_OBOJNI_test_1jni_1api3
+        (JNIEnv *env, jobject obj, jstring j_str1/*"abc"*/, jstring j_str2)
+{
+    //jstring --> char*
+    const char *c_str1 = NULL;
+    const char *c_str2 = NULL;
+
+    //将java中的字符串转换成char*类型
+    c_str1 = env->GetStringUTFChars(j_str1, 0);
+
+    __android_log_print(ANDROID_LOG_ERROR,"testjni", "JNI: c_str1 = %s",c_str1);
+
+    //释放java传递过来jstring里面的在堆上开辟的字符串空间
+    env->ReleaseStringUTFChars(j_str1, c_str1);
+
+
+    c_str2 = env->GetStringUTFChars(j_str2, 0);
+
+    __android_log_print(ANDROID_LOG_ERROR,"testjni", "JNI: c_str2 = %s",c_str2);
+
+    env->ReleaseStringUTFChars(j_str2, c_str2);
+
+
+    //给java返回一个字符串
+
+    jstring ret_j_string  = env->NewStringUTF("JNI return String");
+
+    return ret_j_string;
 }
 
 /*
- * Class:     com_example_myapplication_HelloJni
- * Method:    getLine
- * Signature: (Ljava/lang/String;)Ljava/lang/String;
+ * Class:     com_itcast_ace_obo_170325_OBOJNI
+ * Method:    test_jni_api4_array
+ * Signature: ([I)V
  */
-JNIEXPORT jstring JNICALL Java_com_example_myapplication_HelloJni_getLine
-        (JNIEnv *env, jobject obj, jstring str){
-    const char *cstr;
-    cstr=env->GetStringUTFChars(str,NULL);
-    if(str==NULL){
-        return NULL;
+JNIEXPORT void JNICALL Java_com_itcast_ace_obo_1170325_OBOJNI_test_1jni_1api4_1array
+        (JNIEnv *env, jobject obj , jintArray j_int_array)
+{
+    //获取java中 j_int_array数组的首地址
+    jint *pia = env->GetIntArrayElements(j_int_array, 0);
+    //得到数组的长度
+    jsize array_len = env->GetArrayLength(j_int_array);
+
+    //使用该pia pia[1] pia[2]
+    for (int i = 0; i < array_len; i++) {
+        __android_log_print(ANDROID_LOG_ERROR,"testjni", "JNI:array[%d]:%d",i, (int)pia[i]);
     }
-    __android_log_print(ANDROID_LOG_ERROR,"jnitag","测试string传参：%s",cstr);
 
-    env->ReleaseStringUTFChars(str,cstr);
-    jstring retstr=env->NewStringUTF("return success");
-
-    return retstr;
+    //释放j_int_array数据空间
+    env->ReleaseIntArrayElements(j_int_array, pia, 0);
 }
 
-/*
- * Class:     com_example_myapplication_HelloJni
- * Method:    testBooleanInt
- * Signature: (IZ)Ljava/lang/String;
- */
-JNIEXPORT jstring JNICALL Java_com_example_myapplication_HelloJni_testBooleanInt
-        (JNIEnv *env, jobject obj, jint num, jboolean b){
-    int cint=num;
-    __android_log_print(ANDROID_LOG_ERROR,"jnitag","int=%d",cint);
 
-    __android_log_print(ANDROID_LOG_ERROR,"jnitag","bool=%s",(b==JNI_TRUE)?"true":"false");
-
-    return env->NewStringUTF("sdfdf");
-}
-
-JNIEXPORT jobjectArray JNICALL Java_com_example_myapplication_HelloJni_testArray
-        (JNIEnv *env, jobject obj, jintArray java_i_array, jobjectArray java_str_array, jbooleanArray java_boo_array){
-    jboolean *pba=(env)->GetBooleanArrayElements(java_boo_array,0);
-    //booleanArray
-    jsize len=(env)->GetArrayLength(java_boo_array);
-    int i=0;
-    for(i=0;i<len;i++){
-        __android_log_print(ANDROID_LOG_ERROR, "jintag", "bArrat[%d]=%s", i,
-                            (pba[i] == JNI_TRUE) ? "true" : "false");
-    }
-    env->ReleaseBooleanArrayElements(java_boo_array,pba,0);
-
-    //intArray
-    jint *pia=env->GetIntArrayElements(java_i_array,0);
-    len=env->GetArrayLength(java_i_array);
-    for(i=0;i<len;i++){
-        __android_log_print(ANDROID_LOG_ERROR,"jnitag","iArray[%d]=%d",i,pia[i]);
-    }
-    env->ReleaseIntArrayElements(java_i_array,pia,0);
-
-    //处理StringArray
-    len=env->GetArrayLength(java_str_array);
-    for(i=0;i<len;i++){
-        //string不是基本类型，是一个实例对象，so use GetObjectArrayElement
-        jstring jstrObj=(jstring)(env)->GetObjectArrayElement(java_str_array,i);
-        __android_log_print(ANDROID_LOG_ERROR,"jnitag","strArray[%d]=%s",i,env->GetStringUTFChars(jstrObj,NULL));
-    }
-
-    jstring str;
-    jobjectArray strArray;
-    jsize arrayLen=5;
-
-    const char *sa[]={"hello","jni","is","so","easy"};
-    //string不是一个基本数据类型，是一个复杂的类型，所以需要用newObjectArray，
-    //以下一句代码，表示该Object是一个String类型的数组
-    strArray=env->NewObjectArray(arrayLen,env->FindClass("java/lang/String"),0);
-
-    for(i=0;i<5;i++){
-        str=env->NewStringUTF(sa[i]);
-        env->SetObjectArrayElement(strArray,i,str);
-    }
-    return strArray;
-}
-
-/*
- * Class:     com_example_myapplication_HelloJni
- * Method:    nativeGetStudentInfo
- * Signature: ()Lcom/example/myapplication/Student;
- */
-//JNIEXPORT jobject JNICALL Java_com_example_myapplication_HelloJni_nativeGetStudentInfo
-//        (JNIEnv *env, jobject obj){
-//    jclass studcls=env->FindClass("Lcom/example/myapplication/Student");
-//    jmethodID constrocMID=env->GetMethodID(studcls,"<init>","(ILjava/long/String;)V");
-//    jstring str=env->NewStringUTF("come from Native");
-//    jobject stu_0bj=env->NewObject(studcls,constrocMID,11,str);
-//    return stu_0bj;
-//}
 #ifdef __cplusplus
 }
 #endif
