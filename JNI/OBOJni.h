@@ -7,7 +7,6 @@
 
 #include <jni.h>
 #include <android/log.h>
-#include <stdlib.h>
 #include <stdio.h>
 #include <string>
 

@@ -30,7 +30,9 @@ public class OBOJNI {
     //登陆的jni接口login
     public native  boolean login(String username, String passwd, boolean isDriver);
 
-
+    //注册的jni接口reg
+    public native boolean reg(String username ,String passwd, String email, String phone,
+                              String idCard, boolean isDriver);
     //加载cpp给提供的 动态库
     static {
         System.loadLibrary("testjni"); //libtestjni.so

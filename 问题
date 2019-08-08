@@ -1,4 +1,6 @@
 1.javah  encoding的问题
-javah -jni -encoding UTF-8
+    javah -jni -encoding UTF-8
 
 2.解决c++ - Android NDK: Missing LOCAL_MODULE before including BUILD_SHARED_LIBRARY
+    module写错了
+3.NDK中配置好了c++11标准以及STL，仍然无法使用STL里的函数

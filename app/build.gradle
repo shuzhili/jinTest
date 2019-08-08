@@ -10,6 +10,20 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        // 不声明ndk标签,项目默认会创建一个libapp.so的文件
+        ndk {
+            // 声明创建so库的文件名,会自动添加lib前缀, 添加了前缀,不会自动添加
+            moduleName "testjni"
+
+            //声明启用Android日志, 在c/c++的源文件中使用的#include <android/log.h> 日志将得到输出
+            //这里我们关联了两个库 一个是liblog 和 libz
+            ldLibs "log","z"
+
+            // 声明创建指定cpu架构的so库, 不声明的话, 默认(gradle 1.5.0)会生成7中架构,如果你的libcurl没有提供别的平台，那么就会链接失败，
+            //所以此条配置很重要，这里我们只生成一个平台
+            abiFilters "armeabi-v7a"
+        }
     }
     buildTypes {
         release {
@@ -26,7 +40,8 @@ android {
 
     externalNativeBuild {
         ndkBuild {
-            path '../jni/Android.mk'
+            //表示构件androidJNI的Android.mk的所在路径
+            path '../JNI/Android.mk'
         }
     }
 }
