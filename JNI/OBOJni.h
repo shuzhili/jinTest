@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <string>
 
-#define TAG     "JNI"
 
+#define TAG     "JNI"
+using namespace std;
 #endif //MY_PRO_OBOJNI_H

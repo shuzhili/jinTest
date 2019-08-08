@@ -42,6 +42,7 @@ android {
         ndkBuild {
             //表示构件androidJNI的Android.mk的所在路径
             path '../JNI/Android.mk'
+
         }
     }
 }

@@ -4,19 +4,19 @@
 #include "Curl.h"
 #include "curl/curl.h"
 
-Curl::Curl(string url, bool ignoreCA) {
+Curl::Curl(std::string url, bool ignoreCA) {
     this->_curl=curl_easy_init();
     curl_easy_setopt(this->_curl,CURLOPT_URL,url.c_str());
 
     if(ignoreCA==true){
-        curl_easy_setopt(this->_curl,CURLOPT_SSL_VERIFYHOST,fasle);
+        curl_easy_setopt(this->_curl,CURLOPT_SSL_VERIFYHOST, false);
         curl_easy_setopt(this->_curl,CURLOPT_SSL_VERIFYPEER,false);
     }
 }
 Curl::~Curl(){
     curl_easy_cleanup(this->_curl);
 }
-string Curl::responseData() {
+std::string Curl::responseData() {
     return this->_responseData;
 }
 
@@ -24,9 +24,9 @@ size_t Curl::deal_response(void *ptr, size_t m, size_t n, void *arg) {
     Curl *This=(Curl*)arg;
     char *p=(char*)ptr;
     int count=m*n;
-    copy(p,p+count,back_inserter(This->_responnseData));
+    std::copy(p,p+count,std::back_inserter(This->_responseData));
 }
-bool Curl::execute(string requestData) {
+bool Curl::execute(std::string requestData) {
     CURLcode res;
     //设置post请求
     curl_easy_setopt(this->_curl,CURLOPT_POST,true);

@@ -3,4 +3,14 @@
 
 2.解决c++ - Android NDK: Missing LOCAL_MODULE before including BUILD_SHARED_LIBRARY
     module写错了
+
 3.NDK中配置好了c++11标准以及STL，仍然无法使用STL里的函数
+    在头文件中添加 using namespace std;
+
+4. Android NDK: APP_STL stlport_static is no longer supported.
+ Please switch to either c++_static or c++_shared.
+    APP_STL := stlport_static -> APP_STL := c++_static (c++_shared)
+
+5. 在使用ndk-r9版本的ndk-build命令编译jni时，
+ 报错error: format not a string literal and no format arguments [-Werror=format-security]
+    Application.mk 中添加 APP_CFLAGS += -Wno-error=format-security

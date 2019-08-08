@@ -16,13 +16,13 @@ public:
 
 
     //给json插入一对key value (string)
-    void insert(string key, string value);
+    void insert(std::string key, std::string value);
 
     //将json Object 转换成字符串
-    string print();
+    std::string print();
 
     //将json字符串解析成一个json对象
-    void parse(string json_str);
+    void parse(std::string json_str);
 
     //得到json中的某个key对应的value
     string value(string key);
