@@ -6,11 +6,33 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:text="乘客界面"
+        android:text="等待服务器定位地址..."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_passenger_srcAddr"
+        android:textSize="18sp" />
+
+
+    <AutoCompleteTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_passenger_srcAddr"
+        android:id="@+id/attv_passenger_dstAddr"
+        android:hint="请输入目标地址" />
+
+    <com.amap.api.maps.MapView
+        android:id="@+id/PassengerMap"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/attv_passenger_dstAddr">
+    </com.amap.api.maps.MapView>
+
+    <Button
+        android:text="开始约车"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="123dp"
-        android:id="@+id/textView2" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/bt_startOrder" />
 </RelativeLayout>

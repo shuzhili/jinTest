@@ -14,3 +14,6 @@
 5. 在使用ndk-r9版本的ndk-build命令编译jni时，
  报错error: format not a string literal and no format arguments [-Werror=format-security]
     Application.mk 中添加 APP_CFLAGS += -Wno-error=format-security
+
+6.集成地图后白屏
+    把armeabi -> armeabi-v7a

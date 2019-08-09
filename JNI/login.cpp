@@ -40,7 +40,7 @@ JNIEXPORT jboolean JNICALL Java_com_example_myapplication_OBOJNI_login
     CURL *curl=NULL;
     CURLcode res;
     response_data_t response_data;
-
+    //初始化curl句柄
     curl=curl_easy_init();
     if(curl==NULL){
         __android_log_print(ANDROID_LOG_ERROR,TAG,"JNI-login:curl init error\n");
@@ -50,6 +50,16 @@ JNIEXPORT jboolean JNICALL Java_com_example_myapplication_OBOJNI_login
     __android_log_print(ANDROID_LOG_ERROR,TAG,"JNI-login:username=%s,passwd=%s,isDriver=%s",
             username,passwd,isDriver);
 
+    //封装一个数据协议
+    /*
+       ====给服务端的协议====
+     http://ip:port/login [json_data]
+    {
+        username: "gailun",
+        password: "123123",
+        driver:   "yes"
+    }*/
+    //（1）封装一个json字符串
     cJSON* root=cJSON_CreateObject();
 
     cJSON_AddStringToObject(root,"username",username);
@@ -60,19 +70,37 @@ JNIEXPORT jboolean JNICALL Java_com_example_myapplication_OBOJNI_login
     cJSON_Delete(root);
     root=NULL;
     __android_log_print(ANDROID_LOG_ERROR,TAG,"JNI-login:post_str=[%s]\n",post_str);
-
+    //(2) 向web服务器 发送http请求 其中post数据 json字符串
+    //1 设置curl url
     curl_easy_setopt(curl,CURLOPT_URL,"http://101.200.190.150:7777/login");
+    //客户端忽略CA证书认证
+    curl_easy_setopt(curl,CURLOPT_SSL_VERIFYHOST,false);
+    curl_easy_setopt(curl,CURLOPT_SSL_VERIFYPEER,false);
+    //开启post请求开关
     curl_easy_setopt(curl,CURLOPT_POST,true);
+    //添加post数据
     curl_easy_setopt(curl,CURLOPT_POSTFIELDS,post_str);
+    //设定一个处理服务器响应的回调函数
     curl_easy_setopt(curl,CURLOPT_WRITEFUNCTION,deal_response);
+    //给回调函数传递一个形参
     curl_easy_setopt(curl,CURLOPT_WRITEDATA,&response_data);
-
+    //向服务器发送请求，等待服务器的响应
     res=curl_easy_perform(curl);
     if(res!=CURLE_OK){
         __android_log_print(ANDROID_LOG_ERROR,TAG,"JNI-Login:perform ERROr,rescode=[%d]\n",res);
         return JNI_FALSE;
     }
-
+    //（3）  处理服务器响应的数据 此刻的responseData就是从服务器获取的数据
+    /* //成功
+    {
+        result: "ok",
+    }
+    //失败
+    {
+        result: "error",
+        reason: "why...."
+    }*/
+    //(4) 解析服务器返回的json字符串
     root=cJSON_Parse(response_data.data);
     cJSON *result=cJSON_GetObjectItem(root,"result");
     if(result&&strcmp(result->valuestring,"ok")==0){
