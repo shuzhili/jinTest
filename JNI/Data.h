@@ -12,7 +12,7 @@ using namespace std;
 #define OBO_STATUS_DRIVER_IDEL      "idle"
 #define OBO_STATUS_DERIVER_READY    "ready"
 #define OB0_STATUS_DRIVER_CATCH     "catching"
-#define OBO_STATUS_DRIVE            "driving"
+#define OBO_STATUS_DRIVER_DRIVE     "driving"
 #define OBO_STATUS_PASSNGER_IDLE    "idle"
 #define OBO_STATIS_PASSNGER_WAIT    "waiting"
 #define OBO_STATUS_PASSNGET_TRAVEL  "traveling"

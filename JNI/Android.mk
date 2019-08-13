@@ -11,7 +11,10 @@ include $(CLEAR_VARS)
 
 #libmyJni.so
 LOCAL_MODULE :=testjni
-LOCAL_SRC_FILES :=test.cpp login.cpp cJSON.cpp Json.cpp reg.cpp Curl.cpp Data.cpp StartOrder.cpp
+LOCAL_SRC_FILES :=test.cpp login.cpp cJSON.cpp Json.cpp reg.cpp Curl.cpp Data.cpp StartOrder.cpp \
+                  PassengerLocationChanged.cpp DriverLocationChanged.cpp FinishOrder.cpp \
+                  curlTest.cpp
+
 LOCAL_STATIC_LIBRARIES :=libcurl
 LOCAL_LDLIBS := -llog -lz
 

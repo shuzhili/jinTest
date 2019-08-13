@@ -4,6 +4,7 @@
 #include <curl/curl.h>
 #include "OBOJni.h"
 #include "cJSON.h"
+#include "Data.h"
 
 #define RESPONSE_DATA_LEN 4096
 
@@ -36,6 +37,15 @@ JNIEXPORT jboolean JNICALL Java_com_example_myapplication_OBOJNI_login
     const char *passwd=env->GetStringUTFChars(j_pwd,0);
     const char *isDriver=j_bool==JNI_TRUE?"yes":"no";
 
+    JNIINFO("LOGIN:username=%s,passwd=%s,isDriver=%s",username,passwd,isDriver);
+
+    Data::getInstance()->setIsDriver(isDriver);
+    Data::getInstance()->setOrderid("NONE");
+    if(j_bool==JNI_TRUE){
+        Data::getInstance()->setStatus(OBO_STATUS_DRIVER_IDEL);
+    }else{
+        Data::getInstance()->setStatus(OBO_STATUS_PASSNGER_IDLE);
+    }
     char *post_str=NULL;
     CURL *curl=NULL;
     CURLcode res;
@@ -104,6 +114,7 @@ JNIEXPORT jboolean JNICALL Java_com_example_myapplication_OBOJNI_login
     root=cJSON_Parse(response_data.data);
     cJSON *result=cJSON_GetObjectItem(root,"result");
     if(result&&strcmp(result->valuestring,"ok")==0){
+        Data::getInstance()->setSessionid(cJSON_GetObjectItem(root,"sessionid")->valuestring);
         __android_log_print(ANDROID_LOG_ERROR,TAG,"JIN_login:loing succ");
         return JNI_TRUE;
     }else{
