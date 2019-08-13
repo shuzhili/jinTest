@@ -28,7 +28,7 @@ public class JNITestActivity extends AppCompatActivity {
         bt_jni_test1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OBOJNI.getInstance().hello_jni();
+                //OBOJNI.getInstance().hello_jni();
             }
         });
 
@@ -36,29 +36,29 @@ public class JNITestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //调用传参int的jni接口
-                int ret_int = OBOJNI.getInstance().test_jni_api(100,200);
-                Log.e("testjni", "java: ret_int = "+ ret_int);
+                //int ret_int = OBOJNI.getInstance().test_jni_api(100,200);
+                //Log.e("testjni", "java: ret_int = "+ ret_int);
             }
         });
 
         bt_jni_test3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean flag = OBOJNI.getInstance().test_jni_api2(true);
-                Log.e("testjni", "java: bool = "+ flag);
+                //boolean flag = OBOJNI.getInstance().test_jni_api2(true);
+                //Log.e("testjni", "java: bool = "+ flag);
             }
         });
 
         bt_jni_test4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String ret_string = OBOJNI.getInstance().test_jni_api3("Java:gailun", "Java:Yase");
-                Log.e("testjni", "java: ret_string = " + ret_string);
+               // String ret_string = OBOJNI.getInstance().test_jni_api3("Java:gailun", "Java:Yase");
+                //Log.e("testjni", "java: ret_string = " + ret_string);
 
 
                 //测试数组jni接口
-                int[] iList = {1,2,3,4,5};
-                OBOJNI.getInstance().test_jni_api4_array(iList);
+                //int[] iList = {1,2,3,4,5};
+                //OBOJNI.getInstance().test_jni_api4_array(iList);
             }
         });
 

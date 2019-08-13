@@ -17,25 +17,65 @@ public class OBOJNI {
     }
 
     private static  OBOJNI instance = null;
-
-    //提供一个调用JNI接口的成员方法
-    public native void hello_jni();
-    public native  void hello_jni2();
-    public native  int test_jni_api(int a, int b);
-    public native boolean test_jni_api2(boolean a);
-    public native  String test_jni_api3(String str1, String str2);
-    public native  void test_jni_api4_array(int[] array);
-
-
+    //加载cpp给提供的 动态库
+    static {
+        System.loadLibrary("testjni"); //libtestjni.so
+    }
     //登陆的jni接口login
     public native  boolean login(String username, String passwd, boolean isDriver);
 
     //注册的jni接口reg
     public native boolean reg(String username ,String passwd, String email, String phone,
                               String idCard, boolean isDriver);
-    //加载cpp给提供的 动态库
-    static {
-        System.loadLibrary("testjni"); //libtestjni.so
-    }
+
+    public native boolean StartOrder(String src_longtitude,
+                                     String src_latitude,
+                                     String src_address,
+                                     String dst_longitude,
+                                     String dst_latitude,
+                                     String dst_address,
+                                     String RMB);
+
+    public native boolean DriverLocationChanged(String longitude,
+                                                String latitude,
+                                                String address,
+                                                String autoSend);
+
+    //乘客端定位发生改变，上传地理位置信息 JNI模块
+    public native  boolean PassengerLocationChanged(String longitude,
+                                                    String latitude,
+                                                    String address,
+                                                    String dst_longitude,
+                                                    String dst_latitude,
+                                                    String dst_address);
+
+    public native boolean FinishOrder();
+
+    public native void setStatus(String status);
+
+    public native String getOrderid();
+    public native String getSessionid();
+    public native String getStatus();
+    public native String getIsDriver();
+    public native String getPtempLongitude();
+    public native String getPtempLatitude();
+    public native String getDtempLongitude();
+    public native String getDtempLatitude();
+
+    public native void testLibcurl();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
