@@ -17,3 +17,8 @@
 
 6.集成地图后白屏
     把armeabi -> armeabi-v7a
+
+ 7.写好OBOJNI.java中native方法，进入E:\MY_PRO\JNI目录 javah -jni -encoding UTF-8 com.example.myapplication.OBOJNI
+
+    得到jni接口，编写cpp文件。配置Android.mk(LOCAL_SRC_FILES=xxx.cpp) Application.mk，进入E:\MY_PRO\JNI
+    执行ndk-build

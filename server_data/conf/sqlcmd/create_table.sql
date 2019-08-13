@@ -9,3 +9,5 @@ create table OBO_TABLE_USER{
     driver      VARCHAR(6)  not null DEFAULT "no",
     constraint uq_u_name unique(u_name),constraint uq_id_card unique(id_card)
 }
+
+
